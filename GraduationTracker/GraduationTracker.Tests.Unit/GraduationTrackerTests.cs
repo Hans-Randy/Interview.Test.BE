@@ -1,88 +1,42 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using GraduationTracker.Models;
+using GraduationTracker.Services;
+using GraduationTracker.Repositories;
+using GraduationTracker.Interfaces;
 
 namespace GraduationTracker.Tests.Unit
 {
     [TestClass]
     public class GraduationTrackerTests
     {
-        [TestMethod]
-        public void TestHasCredits()
+        IGraduationTracker _tracker;
+        Diploma _diploma;
+        IStudentRepository _studentRepository;
+
+        [TestInitialize]
+        public void TestInitialize()
         {
-            var tracker = new GraduationTracker();
+            _studentRepository = new StudentRepository();
+            var diplomaRepository = new DiplomaRepository();
+            var requirementRepository = new RequirementRepository();
 
-            var diploma = new Diploma
-            {
-                Id = 1,
-                Credits = 4,
-                Requirements = new int[] { 100, 102, 103, 104 }
-            };
-
-            var students = new[]
-            {
-               new Student
-               {
-                   Id = 1,
-                   Courses = new Course[]
-                   {
-                        new Course{Id = 1, Name = "Math", Mark=95 },
-                        new Course{Id = 2, Name = "Science", Mark=95 },
-                        new Course{Id = 3, Name = "Literature", Mark=95 },
-                        new Course{Id = 4, Name = "Physichal Education", Mark=95 }
-                   }
-               },
-               new Student
-               {
-                   Id = 2,
-                   Courses = new Course[]
-                   {
-                        new Course{Id = 1, Name = "Math", Mark=80 },
-                        new Course{Id = 2, Name = "Science", Mark=80 },
-                        new Course{Id = 3, Name = "Literature", Mark=80 },
-                        new Course{Id = 4, Name = "Physichal Education", Mark=80 }
-                   }
-               },
-            new Student
-            {
-                Id = 3,
-                Courses = new Course[]
-                {
-                    new Course{Id = 1, Name = "Math", Mark=50 },
-                    new Course{Id = 2, Name = "Science", Mark=50 },
-                    new Course{Id = 3, Name = "Literature", Mark=50 },
-                    new Course{Id = 4, Name = "Physichal Education", Mark=50 }
-                }
-            },
-            new Student
-            {
-                Id = 4,
-                Courses = new Course[]
-                {
-                    new Course{Id = 1, Name = "Math", Mark=40 },
-                    new Course{Id = 2, Name = "Science", Mark=40 },
-                    new Course{Id = 3, Name = "Literature", Mark=40 },
-                    new Course{Id = 4, Name = "Physichal Education", Mark=40 }
-                }
-            }
-
-
-            //tracker.HasGraduated()
-        };
-            
-            var graduated = new List<Tuple<bool, STANDING>>();
-
-            foreach(var student in students)
-            {
-                graduated.Add(tracker.HasGraduated(diploma, student));      
-            }
-
-            
-            Assert.IsFalse(graduated.Any());
-
+            _diploma = diplomaRepository.GetAll().First();
+            _tracker = new Services.GraduationTracker(diplomaRepository, requirementRepository, _studentRepository);
         }
 
+        [DataTestMethod]
+        [DataRow(1, true, Standing.SummaCumLaude)]
+        [DataRow(2, true, Standing.Average)]
+        [DataRow(3, true, Standing.Average)]
+        [DataRow(4, false, Standing.Remedial)]
+        public void TestStudentGraduationScenarios(int studentId, bool expectedGraduation, Standing expectedStanding)
+        {
+            var student = _studentRepository.GetById(studentId);
+            var result = _tracker.HasGraduated(_diploma, student);
 
+            Assert.AreEqual(expectedGraduation, result.Item1);
+            Assert.AreEqual(expectedStanding, result.Item2);
+        }
     }
 }
