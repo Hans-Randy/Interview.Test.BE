@@ -61,20 +61,10 @@ namespace GraduationTracker.Services
             else
                 standing = Standing.SummaCumLaude;
 
-            switch (standing)
-            {
-                case Standing.Remedial:
-                    return new Tuple<bool, Standing>(false, standing);
-                case Standing.Average:
-                    return new Tuple<bool, Standing>(true, standing);
-                case Standing.SummaCumLaude:
-                    return new Tuple<bool, Standing>(true, standing);
-                case Standing.MagnaCumLaude:
-                    return new Tuple<bool, Standing>(true, standing);
+            var hasEnoughCredits = credits >= diploma.Credits;
+            var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
-                default:
-                    return new Tuple<bool, Standing>(false, standing);
-            }
+            return new Tuple<bool, Standing>(hasEnoughCredits && hasPassingStanding, standing);
         }
     }
 }
