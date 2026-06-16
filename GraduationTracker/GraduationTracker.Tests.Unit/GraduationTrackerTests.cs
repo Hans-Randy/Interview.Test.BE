@@ -35,8 +35,8 @@ namespace GraduationTracker.Tests.Unit
             var student = _studentRepository.GetById(studentId);
             var result = _tracker.HasGraduated(_diploma, student);
 
-            Assert.AreEqual(expectedGraduation, result.Item1);
-            Assert.AreEqual(expectedStanding, result.Item2);
+            Assert.AreEqual(expectedGraduation, result.HasGraduated);
+            Assert.AreEqual(expectedStanding, result.Standing);
         }
     }
 }

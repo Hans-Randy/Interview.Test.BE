@@ -1,6 +1,5 @@
 ﻿using GraduationTracker.Interfaces;
 using GraduationTracker.Models;
-using System;
 using System.Linq;
 
 namespace GraduationTracker.Services
@@ -31,7 +30,7 @@ namespace GraduationTracker.Services
         }
 
         /// <inheritdoc/>
-        public Tuple<bool, Standing> HasGraduated(Diploma diploma, Student student)
+        public GraduationResult HasGraduated(Diploma diploma, Student student)
         {
             var credits = 0;
             
@@ -64,7 +63,7 @@ namespace GraduationTracker.Services
             var hasEnoughCredits = credits >= diploma.Credits;
             var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
-            return new Tuple<bool, Standing>(hasEnoughCredits && hasPassingStanding, standing);
+            return new GraduationResult(hasEnoughCredits && hasPassingStanding, standing);
         }
     }
 }
