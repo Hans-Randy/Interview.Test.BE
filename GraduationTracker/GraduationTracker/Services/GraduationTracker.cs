@@ -42,7 +42,7 @@ namespace GraduationTracker.Services
             foreach (var requirement in requirements)
             {
                 var requirementCourse = studentCourses.FirstOrDefault(c => requirement.Courses.Contains(c.Id));
-                if (requirementCourse != null && requirementCourse.Mark > requirement.MinimumMark)
+                if (requirementCourse != null && requirementCourse.Mark >= requirement.MinimumMark)
                 {
                     credits += requirement.Credits;
                 }
