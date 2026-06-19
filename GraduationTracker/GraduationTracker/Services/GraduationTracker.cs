@@ -21,7 +21,7 @@ namespace GraduationTracker.Services
         }
 
         /// <inheritdoc/>
-        public GraduationResult HasGraduated(Diploma diploma, Student student)
+        public GraduationResult Evaluate(Diploma diploma, Student student)
         {
             var studentCourses = student.Courses.ToList();
 

@@ -34,7 +34,7 @@ namespace GraduationTracker.Tests.Unit
         public void TestStudentGraduationScenarios(int studentId, bool expectedGraduation, Standing expectedStanding)
         {
             var student = _studentRepository.GetById(studentId);
-            var result = _tracker.HasGraduated(_diploma, student);
+            var result = _tracker.Evaluate(_diploma, student);
 
             Assert.AreEqual(expectedGraduation, result.HasGraduated);
             Assert.AreEqual(expectedStanding, result.Standing);
@@ -72,7 +72,7 @@ namespace GraduationTracker.Tests.Unit
 
             var tracker = new Services.GraduationTracker(requirementRepo);
 
-            var result = tracker.HasGraduated(diploma, student);
+            var result = tracker.Evaluate(diploma, student);
 
             Assert.IsFalse(result.HasGraduated);
             Assert.AreEqual(Standing.Average, result.Standing);
@@ -100,7 +100,7 @@ namespace GraduationTracker.Tests.Unit
 
             var tracker = new Services.GraduationTracker(requirementRepo);
 
-            var result = tracker.HasGraduated(diploma, student);
+            var result = tracker.Evaluate(diploma, student);
 
             Assert.IsTrue(result.HasGraduated);
             Assert.AreEqual(Standing.Average, result.Standing);
@@ -126,7 +126,7 @@ namespace GraduationTracker.Tests.Unit
 
             var tracker = new Services.GraduationTracker(requirementRepo);
 
-            var result = tracker.HasGraduated(diploma, student);
+            var result = tracker.Evaluate(diploma, student);
 
             Assert.IsTrue(result.HasGraduated);
             Assert.AreEqual(Standing.MagnaCumLaude, result.Standing);
@@ -152,7 +152,7 @@ namespace GraduationTracker.Tests.Unit
 
             var tracker = new Services.GraduationTracker(requirementRepo);
 
-            var result = tracker.HasGraduated(diploma, student);
+            var result = tracker.Evaluate(diploma, student);
 
             Assert.IsTrue(result.HasGraduated);
             Assert.AreEqual(Standing.SummaCumLaude, result.Standing);

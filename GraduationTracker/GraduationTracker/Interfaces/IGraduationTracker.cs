@@ -8,11 +8,11 @@ namespace GraduationTracker.Interfaces
     public interface IGraduationTracker
     {
         /// <summary>
-        /// Checks if a student has graduated based on the diploma requirements and their courses.
+        /// Evaluates a student against a diploma's requirements to determine graduation status and standing.
         /// </summary>
-        /// <param name="diploma">The diploma to check against.</param>
-        /// <param name="student">The student to check.</param>
+        /// <param name="diploma">The diploma to evaluate against.</param>
+        /// <param name="student">The student to evaluate.</param>
         /// <returns>A <see cref="GraduationResult"/> indicating graduation status and academic standing.</returns>
-        GraduationResult HasGraduated(Diploma diploma, Student student);
+        GraduationResult Evaluate(Diploma diploma, Student student);
     }
 }
