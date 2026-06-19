@@ -23,7 +23,7 @@ namespace GraduationTracker.Tests.Unit
             IRepository<Requirement> requirementRepository = new RequirementRepository();
 
             _diploma = diplomaRepository.GetAll().First();
-            _tracker = new Services.GraduationTracker(diplomaRepository, requirementRepository, _studentRepository);
+            _tracker = new Services.GraduationTracker(requirementRepository);
         }
 
         [DataTestMethod]
@@ -70,10 +70,7 @@ namespace GraduationTracker.Tests.Unit
                 new Requirement { Id = 104, Name = "Physical Education", MinimumMark = 50, Courses = [4], Credits = 1 }
             );
 
-            var tracker = new Services.GraduationTracker(
-                StubRepository(diploma),
-                requirementRepo,
-                StubRepository(student));
+            var tracker = new Services.GraduationTracker(requirementRepo);
 
             var result = tracker.HasGraduated(diploma, student);
 
@@ -101,10 +98,7 @@ namespace GraduationTracker.Tests.Unit
                 new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
             );
 
-            var tracker = new Services.GraduationTracker(
-                StubRepository(diploma),
-                requirementRepo,
-                StubRepository(student));
+            var tracker = new Services.GraduationTracker(requirementRepo);
 
             var result = tracker.HasGraduated(diploma, student);
 
@@ -130,10 +124,7 @@ namespace GraduationTracker.Tests.Unit
                 new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
             );
 
-            var tracker = new Services.GraduationTracker(
-                StubRepository(diploma),
-                requirementRepo,
-                StubRepository(student));
+            var tracker = new Services.GraduationTracker(requirementRepo);
 
             var result = tracker.HasGraduated(diploma, student);
 
@@ -159,10 +150,7 @@ namespace GraduationTracker.Tests.Unit
                 new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
             );
 
-            var tracker = new Services.GraduationTracker(
-                StubRepository(diploma),
-                requirementRepo,
-                StubRepository(student));
+            var tracker = new Services.GraduationTracker(requirementRepo);
 
             var result = tracker.HasGraduated(diploma, student);
 

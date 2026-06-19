@@ -7,26 +7,17 @@ namespace GraduationTracker.Services
     /// <summary>   
     ///     GraduationTracker is responsible for determining if a student has graduated based on their courses and the diploma requirements.
     /// </summary>
-    public partial class GraduationTracker : IGraduationTracker
+    public class GraduationTracker : IGraduationTracker
     {
-        private readonly IRepository<Diploma> _diplomaRepository;
         private readonly IRepository<Requirement> _requirementRepository;
-        private readonly IRepository<Student> _studentRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraduationTracker"/> class.
         /// </summary>
-        /// <param name="diplomaRepository">The diploma repository.</param>
         /// <param name="requirementRepository">The requirement repository.</param>
-        /// <param name="studentRepository">The student repository.</param>
-        public GraduationTracker(
-            IRepository<Diploma> diplomaRepository,
-            IRepository<Requirement> requirementRepository,
-            IRepository<Student> studentRepository)
+        public GraduationTracker(IRepository<Requirement> requirementRepository)
         {
-            _diplomaRepository = diplomaRepository;
             _requirementRepository = requirementRepository;
-            _studentRepository = studentRepository;
         }
 
         /// <inheritdoc/>
