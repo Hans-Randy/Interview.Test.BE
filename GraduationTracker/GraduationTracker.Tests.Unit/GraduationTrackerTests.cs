@@ -31,7 +31,7 @@ namespace GraduationTracker.Tests.Unit
         [DataRow(2, true, Standing.Average)]
         [DataRow(3, true, Standing.Average)]
         [DataRow(4, false, Standing.Remedial)]
-        public void TestStudentGraduationScenarios(int studentId, bool expectedGraduation, Standing expectedStanding)
+        public void SeededStudent_EvaluatedAgainstSeededDiploma_ReturnsExpectedGraduationAndStanding(int studentId, bool expectedGraduation, Standing expectedStanding)
         {
             var student = _studentRepository.GetById(studentId);
             var result = _tracker.Evaluate(_diploma, student);
