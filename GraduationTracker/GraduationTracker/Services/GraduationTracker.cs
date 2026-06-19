@@ -37,22 +37,33 @@ namespace GraduationTracker.Services
                 .Sum(requirement => requirement.Credits);
 
             var average = student.Courses.Select(c => c.Mark).Average();
-
-            var standing = Standing.None;
-
-            if (average < 50)
-                standing = Standing.Remedial;
-            else if (average < 80)
-                standing = Standing.Average;
-            else if (average < 95)
-                standing = Standing.MagnaCumLaude;
-            else
-                standing = Standing.SummaCumLaude;
+            var standing = DetermineStanding(average);
 
             var hasEnoughCredits = credits >= diploma.Credits;
             var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
             return new GraduationResult(hasEnoughCredits && hasPassingStanding, standing);
+        }
+
+        /// <summary>
+        /// Maps an average mark to the corresponding academic <see cref="Standing"/>.
+        /// </summary>
+        /// <param name="average">The student's average mark across all courses.</param>
+        /// <returns>The academic standing for that average.</returns>
+        private static Standing DetermineStanding(double average)
+        {
+            const int RemedialCeiling = 50;
+            const int AverageCeiling = 80;
+            const int MagnaCumLaudeCeiling = 95;
+
+            if (average < RemedialCeiling)
+                return Standing.Remedial;
+            if (average < AverageCeiling)
+                return Standing.Average;
+            if (average < MagnaCumLaudeCeiling)
+                return Standing.MagnaCumLaude;
+
+            return Standing.SummaCumLaude;
         }
     }
 }
