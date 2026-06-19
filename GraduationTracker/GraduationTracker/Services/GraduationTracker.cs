@@ -23,20 +23,18 @@ namespace GraduationTracker.Services
         /// <inheritdoc/>
         public GraduationResult HasGraduated(Diploma diploma, Student student)
         {
-            var credits = 0;
-            
-            var requirements = diploma.Requirements.Select(reqId => _requirementRepository.GetById(reqId));
-            
             var studentCourses = student.Courses.ToList();
 
-            foreach (var requirement in requirements)
+            bool IsRequirementMet(Requirement requirement)
             {
-                var requirementCourse = studentCourses.FirstOrDefault(c => requirement.Courses.Contains(c.Id));
-                if (requirementCourse != null && requirementCourse.Mark >= requirement.MinimumMark)
-                {
-                    credits += requirement.Credits;
-                }
+                var course = studentCourses.FirstOrDefault(c => requirement.Courses.Contains(c.Id));
+                return course != null && course.Mark >= requirement.MinimumMark;
             }
+
+            var credits = diploma.Requirements
+                .Select(_requirementRepository.GetById)
+                .Where(IsRequirementMet)
+                .Sum(requirement => requirement.Credits);
 
             var average = student.Courses.Select(c => c.Mark).Average();
 
