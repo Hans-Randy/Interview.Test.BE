@@ -31,15 +31,15 @@ namespace GraduationTracker.Services
                 return course != null && course.Mark >= requirement.MinimumMark;
             }
 
-            var credits = diploma.RequirementIds
+            var earnedCredits = diploma.RequirementIds
                 .Select(_requirementRepository.GetById)
                 .Where(IsRequirementMet)
-                .Sum(requirement => requirement.NumberOfCredits);
+                .Sum(requirement => requirement.CreditsAwarded);
 
             var average = student.Courses.Select(c => c.Mark).Average();
             var standing = DetermineStanding(average);
 
-            var hasEnoughCredits = credits >= diploma.NumberOfCreditsRequired;
+            var hasEnoughCredits = earnedCredits >= diploma.CreditsRequired;
             var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
             return new GraduationResult(hasEnoughCredits && hasPassingStanding, standing);
