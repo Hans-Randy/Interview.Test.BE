@@ -27,19 +27,19 @@ namespace GraduationTracker.Services
 
             bool IsRequirementMet(Requirement requirement)
             {
-                var course = studentCourses.FirstOrDefault(c => requirement.Courses.Contains(c.Id));
+                var course = studentCourses.FirstOrDefault(c => requirement.CourseIds.Contains(c.Id));
                 return course != null && course.Mark >= requirement.MinimumMark;
             }
 
-            var credits = diploma.Requirements
+            var credits = diploma.RequirementIds
                 .Select(_requirementRepository.GetById)
                 .Where(IsRequirementMet)
-                .Sum(requirement => requirement.Credits);
+                .Sum(requirement => requirement.NumberOfCredits);
 
             var average = student.Courses.Select(c => c.Mark).Average();
             var standing = DetermineStanding(average);
 
-            var hasEnoughCredits = credits >= diploma.Credits;
+            var hasEnoughCredits = credits >= diploma.NumberOfCreditsRequired;
             var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
             return new GraduationResult(hasEnoughCredits && hasPassingStanding, standing);

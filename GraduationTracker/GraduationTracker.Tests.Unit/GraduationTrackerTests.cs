@@ -48,7 +48,7 @@ namespace GraduationTracker.Tests.Unit
         [TestMethod]
         public void StudentWithAverageStandingButInsufficientCredits_ShouldNotGraduate()
         {
-            var diploma = new Diploma { Id = 1, Credits = 4, Requirements = [100, 102, 103, 104] };
+            var diploma = new Diploma { Id = 1, NumberOfCreditsRequired = 4, RequirementIds = [100, 102, 103, 104] };
 
             // Satisfies only 3 of 4 requirements (missing Physical Education, course id 4).
             // Average = (75+75+75) / 3 = 75 → Average standing, but credits earned = 3 < 4.
@@ -64,10 +64,10 @@ namespace GraduationTracker.Tests.Unit
             };
 
             var requirementRepo = StubRepository(
-                new Requirement { Id = 100, Name = "Math",               MinimumMark = 50, Courses = [1], Credits = 1 },
-                new Requirement { Id = 102, Name = "Science",            MinimumMark = 50, Courses = [2], Credits = 1 },
-                new Requirement { Id = 103, Name = "Literature",         MinimumMark = 50, Courses = [3], Credits = 1 },
-                new Requirement { Id = 104, Name = "Physical Education", MinimumMark = 50, Courses = [4], Credits = 1 }
+                new Requirement { Id = 100, Name = "Math",               MinimumMark = 50, CourseIds = [1], NumberOfCredits = 1 },
+                new Requirement { Id = 102, Name = "Science",            MinimumMark = 50, CourseIds = [2], NumberOfCredits = 1 },
+                new Requirement { Id = 103, Name = "Literature",         MinimumMark = 50, CourseIds = [3], NumberOfCredits = 1 },
+                new Requirement { Id = 104, Name = "Physical Education", MinimumMark = 50, CourseIds = [4], NumberOfCredits = 1 }
             );
 
             var tracker = new Services.GraduationTracker(requirementRepo);
@@ -86,7 +86,7 @@ namespace GraduationTracker.Tests.Unit
         [TestMethod]
         public void StudentWithMarkExactlyAtMinimum_ShouldEarnCredit()
         {
-            var diploma = new Diploma { Id = 1, Credits = 1, Requirements = [100] };
+            var diploma = new Diploma { Id = 1, NumberOfCreditsRequired = 1, RequirementIds = [100] };
 
             var student = new Student
             {
@@ -95,7 +95,7 @@ namespace GraduationTracker.Tests.Unit
             };
 
             var requirementRepo = StubRepository(
-                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
+                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, CourseIds = [1], NumberOfCredits = 1 }
             );
 
             var tracker = new Services.GraduationTracker(requirementRepo);
@@ -112,7 +112,7 @@ namespace GraduationTracker.Tests.Unit
         [TestMethod]
         public void StudentWithAverageOf80_ShouldBeMagnaCumLaude()
         {
-            var diploma = new Diploma { Id = 1, Credits = 1, Requirements = [100] };
+            var diploma = new Diploma { Id = 1, NumberOfCreditsRequired = 1, RequirementIds = [100] };
 
             var student = new Student
             {
@@ -121,7 +121,7 @@ namespace GraduationTracker.Tests.Unit
             };
 
             var requirementRepo = StubRepository(
-                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
+                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, CourseIds = [1], NumberOfCredits = 1 }
             );
 
             var tracker = new Services.GraduationTracker(requirementRepo);
@@ -138,7 +138,7 @@ namespace GraduationTracker.Tests.Unit
         [TestMethod]
         public void StudentWithAverageOf95_ShouldBeSummaCumLaude()
         {
-            var diploma = new Diploma { Id = 1, Credits = 1, Requirements = [100] };
+            var diploma = new Diploma { Id = 1, NumberOfCreditsRequired = 1, RequirementIds = [100] };
 
             var student = new Student
             {
@@ -147,7 +147,7 @@ namespace GraduationTracker.Tests.Unit
             };
 
             var requirementRepo = StubRepository(
-                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, Courses = [1], Credits = 1 }
+                new Requirement { Id = 100, Name = "Math", MinimumMark = 50, CourseIds = [1], NumberOfCredits = 1 }
             );
 
             var tracker = new Services.GraduationTracker(requirementRepo);

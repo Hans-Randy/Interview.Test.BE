@@ -14,8 +14,8 @@ namespace GraduationTracker.Repositories
             new Diploma
             {
                 Id = 1,
-                Credits = 4,
-                Requirements = [100, 102, 103, 104]
+                NumberOfCreditsRequired = 4,
+                RequirementIds = [100, 102, 103, 104]
             }
         ];
     }

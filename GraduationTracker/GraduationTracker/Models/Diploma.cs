@@ -15,11 +15,11 @@ namespace GraduationTracker.Models
         /// <summary>
         /// Gets or sets the number of credits required for the diploma.
         /// </summary>
-        public int Credits { get; set; }
+        public int NumberOfCreditsRequired { get; set; }
         
         /// <summary>
-        /// Gets or sets the collection of requirement identifiers for the diploma.
+        /// Gets or sets the identifiers of the requirements that make up the diploma.
         /// </summary>
-        public int[] Requirements { get; set; }
+        public int[] RequirementIds { get; set; }
     }
 }
