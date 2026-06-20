@@ -50,8 +50,6 @@ namespace GraduationTracker.Tests.Unit
         {
             var diploma = new Diploma { Id = 1, CreditsRequired = 4, RequirementIds = [100, 102, 103, 104] };
 
-            // Satisfies only 3 of 4 requirements (missing Physical Education, course id 4).
-            // Average = (75+75+75) / 3 = 75 → Average standing, but credits earned = 3 < 4.
             var student = new Student
             {
                 Id = 99,
@@ -160,12 +158,12 @@ namespace GraduationTracker.Tests.Unit
 
         // Lightweight stub so each test controls its own data without touching seed repositories.
         private static IRepository<T> StubRepository<T>(params T[] items) where T : IEntity
-            => new InMemoryStubRepository<T>(items);
+            => new BaseStubRepository<T>(items);
 
-        private class InMemoryStubRepository<T> : IRepository<T> where T : IEntity
+        private class BaseStubRepository<T> : IRepository<T> where T : IEntity
         {
             private readonly T[] _items;
-            public InMemoryStubRepository(T[] items) => _items = items;
+            public BaseStubRepository(T[] items) => _items = items;
             public T GetById(int id) => _items.FirstOrDefault(x => x.Id == id);
             public IEnumerable<T> GetAll() => _items;
         }

@@ -6,7 +6,7 @@ namespace GraduationTracker.Repositories
     /// <summary>
     /// Represents a repository for managing requirements.
     /// </summary>
-    public class RequirementRepository : InMemoryRepository<Requirement>
+    public class RequirementRepository : BaseRepository<Requirement>
     {
         /// <inheritdoc/>
         protected override IEnumerable<Requirement> Seed() =>

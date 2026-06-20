@@ -6,7 +6,7 @@ namespace GraduationTracker.Repositories
     /// <summary>
     /// Represents a repository for managing diplomas.
     /// </summary>
-    public class DiplomaRepository : InMemoryRepository<Diploma>
+    public class DiplomaRepository : BaseRepository<Diploma>
     {
         /// <inheritdoc/>
         protected override IEnumerable<Diploma> Seed() =>

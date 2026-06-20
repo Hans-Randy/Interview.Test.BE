@@ -6,7 +6,7 @@ namespace GraduationTracker.Repositories
     /// <summary>
     /// Represents a repository for managing students.
     /// </summary>
-    public class StudentRepository : InMemoryRepository<Student>
+    public class StudentRepository : BaseRepository<Student>
     {
         /// <inheritdoc/>
         protected override IEnumerable<Student> Seed() =>

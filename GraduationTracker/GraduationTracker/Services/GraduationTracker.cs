@@ -25,7 +25,7 @@ namespace GraduationTracker.Services
         {
             var studentCourses = student.Courses.ToList();
 
-            bool IsRequirementMet(Requirement requirement)
+            bool IsMinimumMarkRequirementMet(Requirement requirement)
             {
                 var course = studentCourses.FirstOrDefault(c => requirement.CourseIds.Contains(c.Id));
                 return course != null && course.Mark >= requirement.MinimumMark;
@@ -33,7 +33,7 @@ namespace GraduationTracker.Services
 
             var earnedCredits = diploma.RequirementIds
                 .Select(_requirementRepository.GetById)
-                .Where(IsRequirementMet)
+                .Where(IsMinimumMarkRequirementMet)
                 .Sum(requirement => requirement.CreditsAwarded);
 
             var average = student.Courses.Select(c => c.Mark).Average();
