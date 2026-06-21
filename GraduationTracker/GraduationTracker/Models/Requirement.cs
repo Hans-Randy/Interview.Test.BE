@@ -23,13 +23,13 @@ namespace GraduationTracker.Models
         public int MinimumMark { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of credits for the requirement.
+        /// Gets or sets the credits awarded to a student who satisfies this requirement.
         /// </summary>
-        public int Credits { get; set; }
+        public int CreditsAwarded { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of course identifiers for the requirement.
+        /// Gets or sets the identifiers of the courses that satisfy this requirement.
         /// </summary>
-        public int[] Courses { get; set; }
+        public int[] CourseIds { get; set; }
     }
 }

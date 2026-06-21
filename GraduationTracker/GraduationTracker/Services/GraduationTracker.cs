@@ -1,6 +1,5 @@
 ﻿using GraduationTracker.Interfaces;
 using GraduationTracker.Models;
-using System;
 using System.Linq;
 
 namespace GraduationTracker.Services
@@ -8,73 +7,63 @@ namespace GraduationTracker.Services
     /// <summary>   
     ///     GraduationTracker is responsible for determining if a student has graduated based on their courses and the diploma requirements.
     /// </summary>
-    public partial class GraduationTracker : IGraduationTracker
+    public class GraduationTracker : IGraduationTracker
     {
-        private readonly IRepository<Diploma> _diplomaRepository;
         private readonly IRepository<Requirement> _requirementRepository;
-        private readonly IRepository<Student> _studentRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraduationTracker"/> class.
         /// </summary>
-        /// <param name="diplomaRepository">The diploma repository.</param>
         /// <param name="requirementRepository">The requirement repository.</param>
-        /// <param name="studentRepository">The student repository.</param>
-        public GraduationTracker(
-            IRepository<Diploma> diplomaRepository,
-            IRepository<Requirement> requirementRepository,
-            IRepository<Student> studentRepository)
+        public GraduationTracker(IRepository<Requirement> requirementRepository)
         {
-            _diplomaRepository = diplomaRepository;
             _requirementRepository = requirementRepository;
-            _studentRepository = studentRepository;
         }
 
         /// <inheritdoc/>
-        public Tuple<bool, Standing> HasGraduated(Diploma diploma, Student student)
+        public GraduationResult Evaluate(Diploma diploma, Student student)
         {
-            var credits = 0;
-            
-            var requirements = diploma.Requirements.Select(reqId => _requirementRepository.GetById(reqId));
-            
             var studentCourses = student.Courses.ToList();
 
-            foreach (var requirement in requirements)
+            bool IsMinimumMarkRequirementMet(Requirement requirement)
             {
-                var requirementCourse = studentCourses.FirstOrDefault(c => requirement.Courses.Contains(c.Id));
-                if (requirementCourse != null && requirementCourse.Mark > requirement.MinimumMark)
-                {
-                    credits += requirement.Credits;
-                }
+                var course = studentCourses.FirstOrDefault(c => requirement.CourseIds.Contains(c.Id));
+                return course != null && course.Mark >= requirement.MinimumMark;
             }
+
+            var earnedCredits = diploma.RequirementIds
+                .Select(_requirementRepository.GetById)
+                .Where(IsMinimumMarkRequirementMet)
+                .Sum(requirement => requirement.CreditsAwarded);
 
             var average = student.Courses.Select(c => c.Mark).Average();
+            var standing = DetermineStanding(average);
 
-            var standing = Standing.None;
+            var hasEnoughCredits = earnedCredits >= diploma.CreditsRequired;
+            var hasPassingStanding = standing != Standing.Remedial && standing != Standing.None;
 
-            if (average < 50)
-                standing = Standing.Remedial;
-            else if (average < 80)
-                standing = Standing.Average;
-            else if (average < 95)
-                standing = Standing.MagnaCumLaude;
-            else
-                standing = Standing.SummaCumLaude;
+            return new GraduationResult(hasEnoughCredits && hasPassingStanding, standing);
+        }
 
-            switch (standing)
-            {
-                case Standing.Remedial:
-                    return new Tuple<bool, Standing>(false, standing);
-                case Standing.Average:
-                    return new Tuple<bool, Standing>(true, standing);
-                case Standing.SummaCumLaude:
-                    return new Tuple<bool, Standing>(true, standing);
-                case Standing.MagnaCumLaude:
-                    return new Tuple<bool, Standing>(true, standing);
+        /// <summary>
+        /// Maps an average mark to the corresponding academic <see cref="Standing"/>.
+        /// </summary>
+        /// <param name="average">The student's average mark across all courses.</param>
+        /// <returns>The academic standing for that average.</returns>
+        private static Standing DetermineStanding(double average)
+        {
+            const int RemedialCeiling = 50;
+            const int AverageCeiling = 80;
+            const int MagnaCumLaudeCeiling = 95;
 
-                default:
-                    return new Tuple<bool, Standing>(false, standing);
-            }
+            if (average < RemedialCeiling)
+                return Standing.Remedial;
+            if (average < AverageCeiling)
+                return Standing.Average;
+            if (average < MagnaCumLaudeCeiling)
+                return Standing.MagnaCumLaude;
+
+            return Standing.SummaCumLaude;
         }
     }
 }

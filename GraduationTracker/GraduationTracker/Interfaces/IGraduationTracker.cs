@@ -1,5 +1,4 @@
 using GraduationTracker.Models;
-using System;
 
 namespace GraduationTracker.Interfaces
 {
@@ -9,11 +8,11 @@ namespace GraduationTracker.Interfaces
     public interface IGraduationTracker
     {
         /// <summary>
-        /// Checks if a student has graduated based on the diploma requirements and their courses.
+        /// Evaluates a student against a diploma's requirements to determine graduation status and standing.
         /// </summary>
-        /// <param name="diploma">The diploma to check against.</param>
-        /// <param name="student">The student to check.</param>
-        /// <returns>A tuple containing a boolean indicating if the student has graduated and their standing.</returns>
-        Tuple<bool, Standing> HasGraduated(Diploma diploma, Student student);
+        /// <param name="diploma">The diploma to evaluate against.</param>
+        /// <param name="student">The student to evaluate.</param>
+        /// <returns>A <see cref="GraduationResult"/> indicating graduation status and academic standing.</returns>
+        GraduationResult Evaluate(Diploma diploma, Student student);
     }
-} 
+}
