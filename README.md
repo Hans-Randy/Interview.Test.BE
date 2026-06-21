@@ -1,31 +1,20 @@
-# GraduationTracker
+A junior developer has just accomplished a task suspiciously fast... and went for lunch.
 
-This project provides a service to determine if a student has met the requirements for graduation.
+There are now unit tests breaking on the build server and only you have the skills to fix it.
 
-## Design and SOLID Principles
+You should
 
-This project is structured to follow SOLID principles and promote clean code.
+    Fix the broken unit test
+    Make sure there is adequate test coverage
+    Make sure all code is clean and follows best practices
+    Review the code for additional logic errors
 
-- **Dependency Inversion Principle (DIP):** The core business logic in `GraduationTracker.Services.GraduationTracker` depends on abstractions (`IRepository`, `IStudentRepository`, etc.) rather than concrete implementations. Dependencies are provided via constructor injection, decoupling the service from its data sources.
+All joking aside, there is no need to finish this in the span of a lunch hour.
 
-- **Repository Pattern:** Data access is abstracted using the repository pattern. Interfaces like `IStudentRepository` and `IDiplomaRepository` define contracts for data operations, and the concrete implementations (`StudentRepository`, `DiplomaRepository`) handle the specific data access logic (currently using in-memory data).
+The test is so you can show us what clean code looks like. Clean it up as best you can!
 
-- **Separation of Concerns:** Each module performs a specific task. This separation makes the codebase easier to understand, maintain, and test.
+You will be joining a team that believes in SOLID design principles. We also favour declarative over imperative programming. And we generally use rich service models, with thin domain models, which looks very much like SOA over REST.
 
-## How to Build and Run
+Submissions that follow these principles will be favoured since you will fit right in with the current team. If there is a part of the test that blocks you from completing it, then put some comments explaining why it was blocking, and what you would have done if the obstacle was removed.
 
-This project is a class library, so it doesn't run as a standalone application. The primary way to execute the logic is by running the unit tests.
-
-### Build the solution
-
-```bash
-dotnet build
-```
-
-### Run the tests
-
-To run the unit tests, execute the following command from the root directory:
-
-```bash
-dotnet test
-```
+Good Luck!
