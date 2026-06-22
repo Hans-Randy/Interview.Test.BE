@@ -2,14 +2,14 @@ A junior developer has just accomplished a task suspiciously fast... and went fo
 
 There are now unit tests breaking on the build server and only you have the skills to fix it.
 
-You should
+You should 
 
-    Fix the broken unit test
-    Make sure there is adequate test coverage
-    Make sure all code is clean and follows best practices
-    Review the code for additional logic errors
+  - Fix the broken unit test
+  - Make sure there is adequate test coverage
+  - Make sure all code is clean and follows best practices
+  - Review the code for additional logic errors
 
-All joking aside, there is no need to finish this in the span of a lunch hour.
+All joking aside, there is no need to finish this in the span of a lunch hour. 
 
 The test is so you can show us what clean code looks like. Clean it up as best you can!
 
